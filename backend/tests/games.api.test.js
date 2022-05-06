@@ -40,9 +40,10 @@ describe('GET /api/games', () => {
 		await api
 			.get('/api/games')
 			.expect(200)
-			.expect(res => {
-				// TODO: assert that API returned expected number of games
-			})
+				//TODO: assert that API returned expected number of games
+			const response = await api.get('/api/games')
+			expect(response.body).toHaveLength(games.length)
+		
 	})
 })
 
@@ -50,6 +51,27 @@ describe('GET /api/games', () => {
 describe('POST /api/games', () => {
 	test('create a new game', async () => {
 		// TODO: assert that API return new game object
+		const newGame = {
+			winner: "computer",
+			player: 0,
+			computer: 1
+		};
+	async () => {
+			await api.post('/api/games')
+				.send(newGame)
+				.expect(200)
+				.expect(response => {
+					const { winner, moves } = response.body
+	
+					expect({ winner, moves }).toEqual({
+						winner: newGame.winner,
+						moves: {
+							player: newGame.player,
+							computer: newGame.computer
+						}
+					});
+				})
+		};
 	})
 })
 
